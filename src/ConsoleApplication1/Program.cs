@@ -10,7 +10,7 @@ namespace ConsoleApplication1
             var metricsConfig = new MetricsConfig
             {
                 StatsdServerName = "localhost",
-                Prefix = "DwollaUI"
+                Prefix = "ui"
             };
 
             Console.WriteLine("Connected to server");
