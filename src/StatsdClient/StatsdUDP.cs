@@ -17,9 +17,10 @@ namespace StatsdClient
             Name = name;
             Port = port;
             
-            UDPSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             
             IPHostEntry entry = Dns.GetHostEntry(Name);
+            IPAddress ipa = entry.AddressList[0];
+            UDPSocket = new Socket(ipa.AddressFamily, SocketType.Dgram, ProtocolType.Udp);            
             IPEndpoint = new IPEndPoint(entry.AddressList[0],Port);
         }
 
