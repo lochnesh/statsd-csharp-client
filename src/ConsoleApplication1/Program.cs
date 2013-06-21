@@ -10,16 +10,19 @@ namespace ConsoleApplication1
             var metricsConfig = new MetricsConfig
             {
                 StatsdServerName = "localhost",
-                Prefix = "myApp"
+                Prefix = "DwollaUI"
             };
 
             Console.WriteLine("Connected to server");
             
             Metrics.Configure(metricsConfig);
 
-            Metrics.Counter("skyler");
+            for (int i = 0; i < 100; i++)
+            {
+                Metrics.Counter("new-stat");
+                Console.WriteLine("Sent stat");
+            }
 
-            Console.WriteLine("Sent stat");
         }
     }
 }

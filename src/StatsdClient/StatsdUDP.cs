@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -17,16 +18,15 @@ namespace StatsdClient
             Name = name;
             Port = port;
             
-            
             IPHostEntry entry = Dns.GetHostEntry(Name);
-            IPAddress ipa = entry.AddressList[0];
-            UDPSocket = new Socket(ipa.AddressFamily, SocketType.Dgram, ProtocolType.Udp);            
-            IPEndpoint = new IPEndPoint(entry.AddressList[0],Port);
+            var ipAddress = entry.AddressList.First(x => x.AddressFamily != AddressFamily.InterNetworkV6);
+            UDPSocket = new Socket(ipAddress.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
+            IPEndpoint = new IPEndPoint(ipAddress,Port);
         }
 
         public void Send(string command)
         {
-            byte[] encodedCommand = Encoding.ASCII.GetBytes(command);
+            byte[] encodedCommand = Encoding.ASCII.GetBytes(command +"\n");
             UDPSocket.SendTo(encodedCommand, encodedCommand.Length, SocketFlags.None, IPEndpoint);
         }
 
